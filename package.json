@@ -1,0 +1,33 @@
+{
+  "name": "familytree",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityatoshniwal/familytree.git"
+  },
+  "author": "Aditya Toshniwal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adityatoshniwal/familytree/issues"
+  },
+  "homepage": "https://github.com/adityatoshniwal/familytree#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.9.10",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0"
+  }
+}
