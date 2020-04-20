@@ -3,6 +3,13 @@ let appStyles = makeStyles((theme) => ({
     sideMenu: {
         width: 200,
     },
+    loader: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
+    loader_text: {
+        marginLeft: theme.spacing(2),
+    },
     rootBox: {
         display: 'flex',
         flexDirection: 'column',

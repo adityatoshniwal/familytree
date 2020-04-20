@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@material-ui/core';
+import { Box, Backdrop, CircularProgress, Typography } from '@material-ui/core';
 import ContentBody from './ContentBody'
 import appStyles from './styles';
 import AppMenu from './AppMenu';
@@ -58,10 +58,19 @@ export default function App() {
         }
     });
 
-    return (
-        <Box className={classes.rootBox}>
-            <AppMenu />
-            <ContentBody />
-        </Box>
-    )
+    if(!gapiLoaded) {
+        return (
+            <Backdrop className={classes.loader} open={true}>
+                <CircularProgress color="inherit" /><br/>
+                <Typography className={classes.loader_text}>Loading...</Typography>
+            </Backdrop>
+        );
+    } else {
+        return(
+            <Box className={classes.rootBox}>
+                <AppMenu />
+                <ContentBody gapiLoaded={gapiLoaded}/>
+            </Box>            
+        )
+    }
 }
