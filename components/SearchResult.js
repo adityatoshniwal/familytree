@@ -24,8 +24,6 @@ export default function SearchResult(props) {
         {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'}
     ]);
 
-    const [listHt, setListHt] = useState(0);
-
     const listParentRef = React.createRef();
 
     let ListItemRenderer = (props) => {

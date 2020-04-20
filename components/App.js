@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import { Container } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import Grid from '@material-ui/core/Grid';
-import { InputAdornment, Input, Box, FormControl, InputLabel, OutlinedInput } from '@material-ui/core';
-import classes from './styles';
+import { Box } from '@material-ui/core';
 import ContentBody from './ContentBody'
 import appStyles from './styles';
 import AppMenu from './AppMenu';
@@ -67,27 +59,9 @@ export default function App() {
     });
 
     return (
-        <Box className={classes.body}>
+        <Box className={classes.rootBox}>
             <AppMenu />
-            <Container className={classes.content} maxWidth="md">
-                <FormControl variant="outlined" fullWidth>
-                    <OutlinedInput
-                        name="ref_id"
-                        id="ref_id"
-                        type='text'
-                        endAdornment={
-                        <>
-                            <InputAdornment position="end">
-                                <IconButton color="primary">
-                                    <SearchIcon fontSize="default"/>
-                                </IconButton>
-                            </InputAdornment>              
-                        </>
-                        }
-                    />
-                </FormControl>
-                <ContentBody></ContentBody>
-            </Container>
+            <ContentBody />
         </Box>
     )
 }
