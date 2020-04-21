@@ -17,24 +17,19 @@ export default function SearchPage(props) {
     window.addEventListener('resize', ()=>{
         setContentHeight(listParentRef.current.getBoundingClientRect().height);
     })
+
+    // window.gapi.client.sheets.spreadsheets.values.get({
+    //     spreadsheetId: '15Wpn0Ng-THDo-B7FJLt0Co9vYGwkMZHE6HgJ0MkJwqo',
+    //     range: 'Sheet1'
+    // }).then((response) => {
+    //     var result = response.result;
+    //     var numRows = result.values ? result.values.length : 0;
+    //     console.log(result.values);
+    //     console.log(`${numRows} rows retrieved.`);
+    // });
+
     return (
         <Container className={classes.contentBody} maxWidth="md">
-            <FormControl variant="outlined" fullWidth>
-                <OutlinedInput
-                    name="ref_id"
-                    id="ref_id"
-                    type='text'
-                    endAdornment={
-                    <>
-                        <InputAdornment position="end">
-                            <IconButton color="primary">
-                                <SearchIcon fontSize="default"/>
-                            </IconButton>
-                        </InputAdornment>              
-                    </>
-                    }
-                />
-            </FormControl>
             <Box className={classes.searchResultBox} ref={listParentRef}>
                 <SearchResult contentHeight={contentHeight}/>
             </Box>

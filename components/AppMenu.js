@@ -4,7 +4,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import InfoIcon from '@material-ui/icons/Info';
-import { IconButton, AppBar, Container, Drawer, Toolbar, Typography, List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { IconButton, AppBar, Container, Drawer, Toolbar, Typography, List, ListItem, ListItemText, Button, ListItemIcon, FormControl, OutlinedInput, InputAdornment } from '@material-ui/core';
 
 export default function AppMenu() {
     let classes = appStyles();
@@ -17,9 +18,8 @@ export default function AppMenu() {
     return (
         <>
             <AppBar position="sticky" color="default" elevation={2}>
-                <Toolbar >
+                <Toolbar disableGutters variant="dense">
                     <IconButton
-                            edge="start"
                             color="inherit"
                             aria-label="open drawer"
                             onClick={()=>toggleDrawer(true)}
@@ -27,8 +27,23 @@ export default function AppMenu() {
                             <MenuIcon />
                     </IconButton>                    
                     <Container maxWidth="md">
+                        <FormControl variant="outlined" size="small" fullWidth>
+                            <OutlinedInput
+                                name="ref_id"
+                                id="ref_id"
+                                type='text'
+                                endAdornment={
+                                <>
+                                    <InputAdornment position="end">
+                                        <IconButton color="primary">
+                                            <SearchIcon fontSize="default"/>
+                                        </IconButton>
+                                    </InputAdornment>              
+                                </>
+                                }
+                            />
+                        </FormControl>                        
                         <Typography variant="h6" noWrap>
-                            Asawa Family tree
                         </Typography>
                     </Container>
                 </Toolbar>

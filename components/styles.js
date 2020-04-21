@@ -25,7 +25,6 @@ let appStyles = makeStyles((theme) => ({
     },
     searchResultBox : {
         flexGrow: 1,
-        marginTop: theme.spacing(2),
     },
     searchData: {
         margin: '0.5rem 0rem;'
