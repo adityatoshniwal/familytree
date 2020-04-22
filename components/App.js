@@ -11,10 +11,10 @@ export default function App() {
     if(window.gapi && window.gapi.auth2) {
         let GoogleAuth = window.gapi.auth2.getAuthInstance();
         if(GoogleAuth.isSignedIn.get()) {
-            window.gapi.client.setToken({access_token:GoogleAuth.currentUser.get().getAuthResponse().id_token});
+            // window.gapi.client.setToken({access_token:GoogleAuth.currentUser.get().getAuthResponse().access_token});
             window.gapi.client.init({
-                // 'apiKey': 'AIzaSyBHLdeH6904EfzVpBM0vg8QqnZ0quH98ds',
-                'clientId': '866540362548-aauglbaa2770ip7idrago766h7tuitaj.apps.googleusercontent.com',
+                'apiKey': 'AIzaSyBHLdeH6904EfzVpBM0vg8QqnZ0quH98ds',
+                // 'clientId': '866540362548-aauglbaa2770ip7idrago766h7tuitaj.apps.googleusercontent.com',
                 'scope': 'https://www.googleapis.com/auth/spreadsheets',
                 // Your API key will be automatically added to the Discovery Document URLs.
                 'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
@@ -22,7 +22,7 @@ export default function App() {
                 console.log('success...');
                 return window.gapi.client.sheets.spreadsheets.values.get({
                     spreadsheetId: '15Wpn0Ng-THDo-B7FJLt0Co9vYGwkMZHE6HgJ0MkJwqo',
-                    range: 'A1:A1'
+                    range: 'Sheet1'
                 }).then((response) => {
                     var result = response.result;
                     var numRows = result.values ? result.values.length : 0;
@@ -40,6 +40,35 @@ export default function App() {
         console.log('Trying To Load Client!');
         console.log(script)
         if(script.getAttribute('gapi_processed')){
+            // gapi.client.init({
+            //     'apiKey': 'AIzaSyBHLdeH6904EfzVpBM0vg8QqnZ0quH98ds',
+            //     // 'clientId': '866540362548-aauglbaa2770ip7idrago766h7tuitaj.apps.googleusercontent.com',
+            //     'scope': 'https://www.googleapis.com/auth/spreadsheets.readonly',
+            //     // Your API key will be automatically added to the Discovery Document URLs.
+            //     'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+            // }).then(function () {
+            //     // Listen for sign-in state changes.
+            //     // gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+            
+            //     // Handle the initial sign-in state.
+            //     // updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+            //     // authorizeButton.onclick = handleAuthClick;
+            //     // signoutButton.onclick = handleSignoutClick;
+            //     setGapiLoaded(true);
+            //     // let GoogleAuth = window.gapi.auth2.getAuthInstance();
+            //     // if(GoogleAuth.isSignedIn.get()) {
+            //         console.log('is logged in...');
+            //         return window.gapi.client.sheets.spreadsheets.values.get({
+            //             spreadsheetId: '15Wpn0Ng-THDo-B7FJLt0Co9vYGwkMZHE6HgJ0MkJwqo',
+            //             range: 'Sheet1'
+            //         }).then((response) => {
+            //             var result = response.result;
+            //             var numRows = result.values ? result.values.length : 0;
+            //             console.log(result.values);
+            //             console.log(`${numRows} rows retrieved.`);
+            //         });         
+            //     // }                
+            // });            
             window.gapi.load('auth2', function() {
                 window.gapi.auth2.init({ux_mode: 'redirect'})
                     .then(()=>{
