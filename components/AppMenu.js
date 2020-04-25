@@ -24,24 +24,26 @@ export default function AppMenu(props) {
     return (
         <>
             <AppBar position="sticky" color="default" elevation={2}>
-                <Toolbar disableGutters variant="dense">
-                    <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={()=>toggleDrawer(true)}
-                        >
-                            <MenuIcon />
-                    </IconButton>                    
-                    <Container maxWidth="md">
+                <Toolbar disableGutters variant="dense">                
+                    <Container maxWidth="md" className={classes.searchBoxContainer}>
                         <FormControl variant="outlined" size="small" fullWidth>
                             <OutlinedInput
                                 name="ref_id"
                                 id="ref_id"
                                 type='text'
+                                startAdornment={
+                                <>
+                                    <InputAdornment position="start">
+                                        <IconButton color="primary" onClick={()=>toggleDrawer(true)} className={classes.searchBoxButton}>
+                                            <MenuIcon fontSize="default"/>
+                                        </IconButton>
+                                    </InputAdornment>              
+                                </>                                    
+                                }
                                 endAdornment={
                                 <>
                                     <InputAdornment position="end">
-                                        <IconButton color="primary">
+                                        <IconButton color="primary" className={classes.searchBoxButton}>
                                             <SearchIcon fontSize="default"/>
                                         </IconButton>
                                     </InputAdornment>              

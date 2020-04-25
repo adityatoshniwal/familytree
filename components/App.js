@@ -7,25 +7,26 @@ import {loadGapiScript, initAuth2, getSignedInUser} from './auth';
 
 export default function App() {
     const classes = appStyles();
-    const [auth2Ready, setAuth2Ready] = useState(false);
+    const [signinChecked, setSigninChecked] = useState(false);
     const [currentUser, setUser] = useState(null);
 
     /* On mount */
     useEffect(()=>{
-        if(!auth2Ready) {
+        if(!signinChecked) {
             loadGapiScript()
                 .then(()=>{
                     initAuth2({
                         onSignInChanged: (response)=>{
                             console.log('onSignInChanged', response);
                             setUser(getSignedInUser());
+                            setSigninChecked(true);
                         },
                         onCurrentUserChanged: (response)=>{
                             console.log('onCurrentUserChanged', response);
+                            setSigninChecked(true);
                         }
-                    }).then(()=>{
-                        setAuth2Ready(true);
-                    }).catch((error)=>{
+                    }).then(()=>{})
+                    .catch((error)=>{
                         console.log('Failed:Auth2 initialized...', error);
                     });
                 })
@@ -35,7 +36,7 @@ export default function App() {
         }
     });
 
-    if(!auth2Ready) {
+    if(!signinChecked) {
         return (
             <Backdrop className={classes.loader} open={true}>
                 <CircularProgress color="inherit" /><br/>
@@ -44,7 +45,7 @@ export default function App() {
         );
     } else {
         return(
-            <Box className={classes.rootBox}>
+            <Box className={currentUser ? classes.rootBox: classes.loginRootBox}>
                 <AppMenu currentUser={currentUser}/>
                 <ContentBody currentUser={currentUser}/>
             </Box>            

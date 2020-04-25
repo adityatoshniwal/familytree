@@ -10,6 +10,11 @@ let appStyles = makeStyles((theme) => ({
     loader_text: {
         marginLeft: theme.spacing(2),
     },
+    loginRootBox: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%'
+    },    
     rootBox: {
         display: 'flex',
         flexDirection: 'column',
@@ -25,6 +30,14 @@ let appStyles = makeStyles((theme) => ({
     },
     searchResultBox : {
         flexGrow: 1,
+    },
+    searchBoxContainer: {
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+    },
+    searchBoxButton: {
+        paddingLeft: '0',
+        paddingRight: '0',
     },
     searchData: {
         margin: '0.5rem 0rem;'
