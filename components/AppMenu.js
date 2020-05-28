@@ -1,4 +1,4 @@
-import React, { useState, useMemo, forwardRef } from 'react';
+import React, { useState, useMemo, forwardRef, useRef } from 'react';
 import appStyles from './styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -34,6 +34,8 @@ function ListItemLink(props) {
 export default function AppMenu(props) {
     let classes = appStyles();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [search, setSearch] = useState('');
+    const searchBtnRef = useRef();
 
     const toggleDrawer = (value) => {
         setMenuOpen(value);
@@ -54,6 +56,12 @@ export default function AppMenu(props) {
                                 name="ref_id"
                                 id="ref_id"
                                 type='text'
+                                onChange={(e)=>{setSearch(e.target.value)}}
+                                onKeyPress={(e)=>{
+                                    if(e.key === 'Enter') {
+                                        searchBtnRef.current.click();
+                                    }
+                                }}
                                 startAdornment={
                                 <>
                                     <InputAdornment position="start">
@@ -66,9 +74,11 @@ export default function AppMenu(props) {
                                 endAdornment={
                                 <>
                                     <InputAdornment position="end">
-                                        <IconButton color="primary" className={classes.searchBoxButton}>
-                                            <SearchIcon fontSize="default"/>
-                                        </IconButton>
+                                        <Link to={'/search?text='+search} ref={searchBtnRef}>
+                                            <IconButton color="primary" className={classes.searchBoxButton}>
+                                                <SearchIcon fontSize="default"/>
+                                            </IconButton>
+                                        </Link>
                                     </InputAdornment>              
                                 </>
                                 }
