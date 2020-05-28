@@ -2,8 +2,13 @@ import React, {useState, useEffect} from 'react';
 import { Box, ListItem, ListItemText, Typography, Divider, withMobileDialog } from '@material-ui/core';
 import { FixedSizeList } from 'react-window';
 import appStyles from './styles';
+import { withRouter } from "react-router";
 
-export default function SearchResult(props) {
+function SearchResult(props) {
+
+    let args = props.location.search.slice(1);
+    console.log(args);
+
     const classes = appStyles();
     const [searchData, setSearchData] = useState([
         {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
@@ -60,3 +65,5 @@ export default function SearchResult(props) {
         </Box>
     )
 }
+
+export default withRouter(SearchResult);

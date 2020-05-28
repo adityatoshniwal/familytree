@@ -25,6 +25,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-button": "^0.7.1",
+    "react-router-dom": "^5.1.2",
     "react-window": "^1.8.5",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"

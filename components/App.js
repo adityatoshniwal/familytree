@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Backdrop, CircularProgress, Typography } from '@material-ui/core';
-import ContentBody from './ContentBody'
 import appStyles from './styles';
 import AppMenu from './AppMenu';
 import {loadGapiScript, initAuth2, getSignedInUser} from './auth';
+import { HashRouter as Router, Route } from 'react-router-dom';
+import Login from './Login';
+import MainPage from './MainPage';
 
 export default function App() {
     const classes = appStyles();
@@ -45,10 +47,17 @@ export default function App() {
         );
     } else {
         return(
-            <Box className={currentUser ? classes.rootBox: classes.loginRootBox}>
-                <AppMenu currentUser={currentUser}/>
-                <ContentBody currentUser={currentUser}/>
-            </Box>            
+            <Router>
+                <Box className={currentUser ? classes.rootBox: classes.loginRootBox}>
+                    {!currentUser && <Login />}
+                    {currentUser && 
+                        <>
+                        <AppMenu currentUser={currentUser}/>
+                        <MainPage />
+                        </>
+                    }
+                </Box>
+            </Router>         
         )
     }
 }

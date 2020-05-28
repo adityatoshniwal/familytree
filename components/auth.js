@@ -76,8 +76,8 @@ export function initAuth2(params) {
 
             GoogleAuth.then(()=>{
                 resolve();
-            }).catch(()=>{
-                reject();
+            }).catch((error)=>{
+                reject(error);
             })
             
         });

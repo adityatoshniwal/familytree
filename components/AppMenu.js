@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, forwardRef } from 'react';
 import appStyles from './styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -8,6 +8,28 @@ import SearchIcon from '@material-ui/icons/Search';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { IconButton, AppBar, Container, Drawer, Toolbar, Typography, List, ListItem, ListItemText, Button, ListItemIcon, FormControl, OutlinedInput, InputAdornment, ListItemAvatar, Avatar } from '@material-ui/core';
 import { signOut } from './auth';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+
+function ListItemLink(props) {
+  const { icon, primary, to } = props;
+
+  const CustomLink = useMemo(
+    () =>
+        forwardRef((linkProps, ref) => (
+            <Link ref={ref} to={to} {...linkProps} />
+        )),
+    [to],
+  );
+
+  return (
+    <li>
+      <ListItem button component={CustomLink} onClick={props.onClick}>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
+  );
+}
 
 export default function AppMenu(props) {
     let classes = appStyles();
@@ -21,6 +43,7 @@ export default function AppMenu(props) {
         return <></>;
     }
 
+    const closeDrawer = ()=>toggleDrawer(false);
     return (
         <>
             <AppBar position="sticky" color="default" elevation={2}>
@@ -50,13 +73,13 @@ export default function AppMenu(props) {
                                 </>
                                 }
                             />
-                        </FormControl>                        
+                        </FormControl>
                         <Typography variant="h6" noWrap>
                         </Typography>
                     </Container>
                 </Toolbar>
             </AppBar>
-            <Drawer anchor='left' open={menuOpen} onClose={()=>toggleDrawer(false)}>
+            <Drawer anchor='left' open={menuOpen} onClose={closeDrawer}>
                 <div className={classes.sideMenu}>
                     <List >
                         <ListItem alignItems="flex-start">
@@ -68,18 +91,9 @@ export default function AppMenu(props) {
                                 secondary={<Typography noWrap={true}>{props.currentUser.email}</Typography>}
                             />
                         </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><HomeIcon /></ListItemIcon>
-                            <ListItemText primary='Home' />
-                        </ListItem>                        
-                        <ListItem button>
-                            <ListItemIcon><PersonAddIcon /></ListItemIcon>
-                            <ListItemText primary='Add new entry' />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><InfoIcon /></ListItemIcon>
-                            <ListItemText primary='About' />
-                        </ListItem>
+                        <ListItemLink icon={<HomeIcon />} primary='Home' to='/home' onClick={closeDrawer}/>
+                        <ListItemLink icon={<PersonAddIcon />} primary='Add new entry' to='/add' onClick={closeDrawer}/>
+                        <ListItemLink icon={<InfoIcon />} primary='About' to='/about' onClick={closeDrawer}/>
                         <ListItem button onClick={()=>{signOut()}}>
                             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
                             <ListItemText primary='Sign out' />
