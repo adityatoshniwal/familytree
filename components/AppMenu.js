@@ -1,4 +1,4 @@
-import React, { useState, useMemo, forwardRef, useRef } from 'react';
+import React, { useState, useMemo, forwardRef, useRef, useEffect } from 'react';
 import appStyles from './styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -8,7 +8,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { IconButton, AppBar, Container, Drawer, Toolbar, Typography, List, ListItem, ListItemText, Button, ListItemIcon, FormControl, OutlinedInput, InputAdornment, ListItemAvatar, Avatar } from '@material-ui/core';
 import { signOut } from './auth';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, withRouter } from 'react-router-dom';
+import {getQueryParam} from './data';
 
 function ListItemLink(props) {
   const { icon, primary, to } = props;
@@ -31,11 +32,15 @@ function ListItemLink(props) {
   );
 }
 
-export default function AppMenu(props) {
+function AppMenu(props) {
     let classes = appStyles();
     const [menuOpen, setMenuOpen] = useState(false);
     const [search, setSearch] = useState('');
     const searchBtnRef = useRef();
+
+    useEffect(()=>{
+        setSearch(getQueryParam(props.location, '/search', 'text'));      
+    }, [props.location])
 
     const toggleDrawer = (value) => {
         setMenuOpen(value);
@@ -53,8 +58,8 @@ export default function AppMenu(props) {
                     <Container maxWidth="md" className={classes.searchBoxContainer}>
                         <FormControl variant="outlined" size="small" fullWidth>
                             <OutlinedInput
-                                name="ref_id"
-                                id="ref_id"
+                                name="search"
+                                value={search}
                                 type='text'
                                 onChange={(e)=>{setSearch(e.target.value)}}
                                 onKeyPress={(e)=>{
@@ -114,3 +119,5 @@ export default function AppMenu(props) {
         </>
     );
 }
+
+export default withRouter(AppMenu);

@@ -6,7 +6,7 @@
   "scripts": {
     "bundle:dev": "yarn run webpack",
     "bundle": "yarn run webpack --mode production",
-    "server": "yarn run http-server -p 8585 --cors"
+    "server": "yarn run http-server -a localhost -p 8585 --cors"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.54",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

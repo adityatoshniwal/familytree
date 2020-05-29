@@ -83,19 +83,3 @@ export function initAuth2(params) {
         });
     });
 }
-
-function getSheetData() {
-    console.log('Signin state changed to ', val);
-    // document.getElementById('signed-in-cell').innerText = val;
-    if(true) {
-        window.gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: '15Wpn0Ng-THDo-B7FJLt0Co9vYGwkMZHE6HgJ0MkJwqo',
-            range: 'Sheet1'
-        }).then((response) => {
-            var result = response.result;
-            var numRows = result.values ? result.values.length : 0;
-            console.log(result.values);
-            console.log(`${numRows} rows retrieved.`);
-        });                                
-    }   
-}

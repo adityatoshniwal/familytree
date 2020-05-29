@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { InputAdornment, Box, FormControl, OutlinedInput, Container, Backdrop, Typography, CircularProgress } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import About from './About';
+import Person from './Person';
 
 export default function MainPage(props) {
     const [contentHeight, setContentHeight] = useState(0);
@@ -34,8 +35,11 @@ export default function MainPage(props) {
         <Container className={classes.contentBody} maxWidth="md">
             <Box className={classes.searchResultBox} ref={listParentRef}>
                 <Route path="/search">
-                    <SearchResult contentHeight={contentHeight}/>
+                    <SearchResult data={props.data} contentHeight={contentHeight}/>
                 </Route>
+                <Route path="/person">
+                    <Person data={props.data}/>
+                </Route>                
                 <Route path="/about">
                     <About />
                 </Route>

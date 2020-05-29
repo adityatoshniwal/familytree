@@ -1,43 +1,40 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo, forwardRef} from 'react';
 import { Box, ListItem, ListItemText, Typography, Divider, withMobileDialog } from '@material-ui/core';
 import { FixedSizeList } from 'react-window';
 import appStyles from './styles';
-import { withRouter } from "react-router";
+import { Link, withRouter } from "react-router-dom";
+import Skeleton from '@material-ui/lab/Skeleton';
+import {getPersonKey} from './data';
 
 function SearchResult(props) {
-
-    let args = props.location.search.slice(1);
-    console.log(args);
-
     const classes = appStyles();
-    const [searchData, setSearchData] = useState([
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'},
-        {'name': 'Aditya', DOB: 'NA', mother: 'Sarala Toshniwal'}
-    ]);
+    const [searchData, setSearchData] = useState([]);
+
+    useEffect(()=>{
+        if(props.data) {
+            setSearchData(props.data);
+        }
+    }, [props.data])
 
     const listParentRef = React.createRef();
-
+      
     let ListItemRenderer = (props) => {
         let person = props.data[props.index];
+        let name = person.firstName + ' ' +person.lastName;
+        
+        const CustomLink = useMemo(
+            () =>
+                forwardRef((linkProps, ref) => (
+                    <Link ref={ref} to={'/person?key='+getPersonKey(person)} {...linkProps} />
+                )),
+            [name],
+        );
+
         return (
             <Box key={props.key} style={props.style}>
-                <ListItem button>
+                <ListItem button component={CustomLink}>
                     <ListItemText
-                        primary={person.name}
+                        primary={person.firstName + ' ' +person.lastName}
                         secondary={
                             <React.Fragment>
                             <Typography
@@ -45,9 +42,8 @@ function SearchResult(props) {
                                 variant="body2"
                                 color="textPrimary"
                             >
-                                {person.DOB}
+                                {person.dob}
                             </Typography>
-                            {person.mother}
                             </React.Fragment>
                         }
                     />
@@ -57,11 +53,26 @@ function SearchResult(props) {
         );
     }
 
+
     return (
         <Box className={classes.fullBox} ref={listParentRef}>
+            {props.data &&
             <FixedSizeList height={props.contentHeight} width={'100%'} itemSize={72} itemCount={searchData.length} itemData={searchData}>
                 {ListItemRenderer}
             </FixedSizeList>
+            }
+            {!props.data &&
+                <>
+                <Skeleton variant="text" animation="wave"/>
+                <Skeleton variant="rect" height={60} animation="wave"/>
+                <Divider/>
+                <Skeleton variant="text" animation="wave"/>
+                <Skeleton variant="rect" height={60} animation="wave"/>
+                <Divider/>
+                <Skeleton variant="text" animation="wave"/>
+                <Skeleton variant="rect" height={60} animation="wave"/>                                
+                </>
+            }
         </Box>
     )
 }

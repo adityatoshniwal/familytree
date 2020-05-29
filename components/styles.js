@@ -41,6 +41,12 @@ let appStyles = makeStyles((theme) => ({
     },
     searchData: {
         margin: '0.5rem 0rem;'
+    },
+    personTextLabel: {
+        color: theme.palette.text.primary
+    },
+    personText: {
+
     }
 }));
 

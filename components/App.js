@@ -3,7 +3,8 @@ import { Box, Backdrop, CircularProgress, Typography } from '@material-ui/core';
 import appStyles from './styles';
 import AppMenu from './AppMenu';
 import {loadGapiScript, initAuth2, getSignedInUser} from './auth';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import {getSheetData} from './data';
+import { HashRouter as Router } from 'react-router-dom';
 import Login from './Login';
 import MainPage from './MainPage';
 
@@ -11,6 +12,8 @@ export default function App() {
     const classes = appStyles();
     const [signinChecked, setSigninChecked] = useState(false);
     const [currentUser, setUser] = useState(null);
+    const [isDataLoaded, setDataLoaded] = useState(false);
+    const [data, setData] = useState(null);
 
     /* On mount */
     useEffect(()=>{
@@ -27,7 +30,16 @@ export default function App() {
                             console.log('onCurrentUserChanged', response);
                             setSigninChecked(true);
                         }
-                    }).then(()=>{})
+                    }).then(()=>{
+                        getSheetData()
+                            .then((data)=>{
+                                setData(data);
+                                setDataLoaded(true);
+                            })
+                            .catch((error)=>{
+                                console.log(error);
+                            });
+                    })
                     .catch((error)=>{
                         console.log('Failed:Auth2 initialized...', error);
                     });
@@ -53,7 +65,7 @@ export default function App() {
                     {currentUser && 
                         <>
                         <AppMenu currentUser={currentUser}/>
-                        <MainPage />
+                        <MainPage isDataLoaded={isDataLoaded} data={data}/>
                         </>
                     }
                 </Box>
