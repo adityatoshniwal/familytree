@@ -4,28 +4,31 @@ import { FixedSizeList } from 'react-window';
 import appStyles from './styles';
 import { Link, withRouter } from "react-router-dom";
 import Skeleton from '@material-ui/lab/Skeleton';
-import {getPersonKey} from './data';
+import {getPersonUrl} from './data';
 
 function SearchResult(props) {
     const classes = appStyles();
-    const [searchData, setSearchData] = useState([]);
+    const [searchData, setSearchData] = useState({});
 
     useEffect(()=>{
         if(props.data) {
-            setSearchData(props.data);
+            setSearchData(Object.values(props.data));
         }
     }, [props.data])
-
-    const listParentRef = React.createRef();
       
     let ListItemRenderer = (props) => {
         let person = props.data[props.index];
-        let name = person.firstName + ' ' +person.lastName;
+        let name = person.name;
+        let genders = {
+            'M': 'Male',
+            'F': 'Female',
+            'O': 'Others'
+        }
         
         const CustomLink = useMemo(
             () =>
                 forwardRef((linkProps, ref) => (
-                    <Link ref={ref} to={'/person?key='+getPersonKey(person)} {...linkProps} />
+                    <Link ref={ref} to={person.url} {...linkProps} />
                 )),
             [name],
         );
@@ -34,7 +37,7 @@ function SearchResult(props) {
             <Box key={props.key} style={props.style}>
                 <ListItem button component={CustomLink}>
                     <ListItemText
-                        primary={person.firstName + ' ' +person.lastName}
+                        primary={name}
                         secondary={
                             <React.Fragment>
                             <Typography
@@ -42,7 +45,7 @@ function SearchResult(props) {
                                 variant="body2"
                                 color="textPrimary"
                             >
-                                {person.dob}
+                                {genders[person.gender.toUpperCase()]}, {person.dob}
                             </Typography>
                             </React.Fragment>
                         }
@@ -55,7 +58,7 @@ function SearchResult(props) {
 
 
     return (
-        <Box className={classes.fullBox} ref={listParentRef}>
+        <>
             {props.data &&
             <FixedSizeList height={props.contentHeight} width={'100%'} itemSize={72} itemCount={searchData.length} itemData={searchData}>
                 {ListItemRenderer}
@@ -73,7 +76,7 @@ function SearchResult(props) {
                 <Skeleton variant="rect" height={60} animation="wave"/>                                
                 </>
             }
-        </Box>
+        </>
     )
 }
 

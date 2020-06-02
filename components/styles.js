@@ -24,12 +24,14 @@ let appStyles = makeStyles((theme) => ({
     contentBody: {
         flexGrow: 1,
         background: '#fff',
-        padding: theme.spacing(2),
+        padding: 0,
         display: 'flex',
         flexDirection: 'column',
+        minHeight: 0,
     },
-    searchResultBox : {
+    wrapperBox : {
         flexGrow: 1,
+        overflow: 'auto'
     },
     searchBoxContainer: {
         paddingLeft: theme.spacing(1),
@@ -42,10 +44,28 @@ let appStyles = makeStyles((theme) => ({
     searchData: {
         margin: '0.5rem 0rem;'
     },
-    personTextLabel: {
-        color: theme.palette.text.primary
+    profileHeader: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        fontSize: '1.5rem',
+        fontFamily: theme.typography.fontFamily,
+        fontWeight: theme.typography.fontWeightLight,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        width: '100%'
     },
-    personText: {
+    profileBody: {
+        padding: theme.spacing(1),
+    },
+    profileCard: {
+        padding: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    },
+    profileTextLabel: {
+        color: theme.palette.primary.main,
+        fontSize: '0.75rem'
+    },
+    profileText: {
 
     }
 }));

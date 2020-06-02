@@ -31,14 +31,14 @@ export default function App() {
                             setSigninChecked(true);
                         }
                     }).then(()=>{
-                        getSheetData()
-                            .then((data)=>{
-                                setData(data);
-                                setDataLoaded(true);
-                            })
-                            .catch((error)=>{
-                                console.log(error);
-                            });
+                        // getSheetData()
+                        //     .then((data)=>{
+                        //         setData(data);
+                        //         setDataLoaded(true);
+                        //     })
+                        //     .catch((error)=>{
+                        //         console.log(error);
+                        //     });
                     })
                     .catch((error)=>{
                         console.log('Failed:Auth2 initialized...', error);
@@ -49,6 +49,17 @@ export default function App() {
                 });
         }
     });
+
+    useEffect(()=>{
+        getSheetData()
+            .then((data)=>{
+                setData(data);
+                setDataLoaded(true);
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
+    }, [signinChecked])
 
     if(!signinChecked) {
         return (

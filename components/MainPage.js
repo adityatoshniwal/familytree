@@ -33,7 +33,7 @@ export default function MainPage(props) {
 
     return (
         <Container className={classes.contentBody} maxWidth="md">
-            <Box className={classes.searchResultBox} ref={listParentRef}>
+            <Box className={classes.wrapperBox} ref={listParentRef}>
                 <Route path="/search">
                     <SearchResult data={props.data} contentHeight={contentHeight}/>
                 </Route>

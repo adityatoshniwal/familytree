@@ -39,7 +39,10 @@ function AppMenu(props) {
     const searchBtnRef = useRef();
 
     useEffect(()=>{
-        setSearch(getQueryParam(props.location, '/search', 'text'));      
+        let text = getQueryParam(props.location, '/search', 'text');
+        if(text) {
+            setSearch(getQueryParam(props.location, '/search', 'text'));
+        }
     }, [props.location])
 
     const toggleDrawer = (value) => {

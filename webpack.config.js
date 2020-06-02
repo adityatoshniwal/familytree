@@ -32,7 +32,7 @@ module.exports = {
 				test: /.(js|jsx)$/,
 				loader: 'babel-loader',
 				options: {
-					plugins: ['syntax-dynamic-import'],
+					plugins: ['syntax-dynamic-import', '@babel/plugin-proposal-object-rest-spread'],
 					presets: ['@babel/preset-env','@babel/preset-react']
 				}
 			}
