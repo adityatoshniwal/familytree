@@ -44,15 +44,17 @@ let appStyles = makeStyles((theme) => ({
     searchData: {
         margin: '0.5rem 0rem;'
     },
+    shareButton: {
+        color: theme.palette.primary.contrastText,
+        textTransform: 'none'
+    },
     profileHeader: {
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
-        fontSize: '1.5rem',
-        fontFamily: theme.typography.fontFamily,
-        fontWeight: theme.typography.fontWeightLight,
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
-        width: '100%'
+        padding: theme.spacing(1),
+    },
+    personChip: {
+        margin: '2px',
     },
     profileBody: {
         padding: theme.spacing(1),
@@ -67,6 +69,10 @@ let appStyles = makeStyles((theme) => ({
     },
     profileText: {
 
+    },
+    notAvaialableBox: {
+        display: 'flex',
+        padding: theme.spacing(1),
     }
 }));
 

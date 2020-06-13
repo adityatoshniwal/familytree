@@ -1,6 +1,6 @@
 
 export const ROW_COL_MAP = [
-    "name", "dob", "gender", "fromCity", "currCity", "children"
+    "name", "dob", "gender", "fromCity", "currCity", "mothersName", "fathersName", "other"
 ]
 
 export function getQueryParam(location, baseUrl, queryKey) {
@@ -23,13 +23,45 @@ export function getFullName(data) {
     return data.name;
 }
 
+export function getChildren(data, person) {
+    let childs = [];
+    Object.keys(data).map((key)=>{
+        if(person.gender.toUpperCase() == 'M' && data[key].fathersName == person.name) {
+            childs.push(data[key]);
+        } else if(person.gender.toUpperCase() == 'F' && data[key].mothersName == person.name) {
+            childs.push(data[key]);
+        }
+    })
+    return childs;
+}
+
+export function getParents(data, person) {
+    let parents = [];
+    if(person.fathersName) {
+        if(data[person.fathersName]) {
+            parents.push(data[person.fathersName]);
+        } else {
+            parents.push(person.fathersName);
+        }
+    }
+
+    if(person.mothersName) {
+        if(data[person.mothersName]) {
+            parents.push(data[person.mothersName]);
+        } else {
+            parents.push(person.mothersName);
+        }
+    }
+    return parents;
+}
+
 export function searchPerson(data, key) {
     if(data) {
         for(let i=0; i<data.length; i++) {
             if(getPersonKey(data[i]) == key) {
                 return data[i];
             }
-        }        
+        }
     }
     return null;
 }
@@ -57,24 +89,32 @@ function preProcessData(data) {
 }
 
 export function getSheetData() {
-    // return Promise.resolve([{firstName: "Aditya", lastName: "Toshniwal", dob: "15/03/1991"}]);
     return new Promise((resolve, reject)=>{
         let GoogleAuth = window.gapi.auth2.getAuthInstance();
         if(GoogleAuth.isSignedIn.get()) {
-            window.gapi.client.init({
-                'apiKey': gapi_sheet['apiKey'],
-                'scope': 'https://www.googleapis.com/auth/spreadsheets',
-                'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-            }).then(function() {
-                return window.gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: gapi_sheet['spreadsheetId'],
-                    range: gapi_sheet['sheetName'],
-                }).then((response) => {
-                    resolve(preProcessData(response.result.values));
+            const clientInit = (retry)=>{
+                window.gapi.client.init({
+                    'apiKey': gapi_sheet['apiKey'],
+                    'scope': 'https://www.googleapis.com/auth/spreadsheets',
+                    'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+                }).then(function() {
+                    return window.gapi.client.sheets.spreadsheets.values.get({
+                        spreadsheetId: gapi_sheet['spreadsheetId'],
+                        range: gapi_sheet['sheetName'],
+                    }).then((response) => {
+                        resolve(preProcessData(response.result.values));
+                    });
+                }).catch((error)=>{
+                    if(retry > 2) {
+                        reject(error);
+                    } else {
+                        setTimeout(()=>{
+                            clientInit(retry++);
+                        }, 1000)
+                    }
                 });
-            }).catch((error)=>{
-                reject(error);
-            });
+            }
+            clientInit(0);
         }        
     });
 }

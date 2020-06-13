@@ -51,14 +51,16 @@ export default function App() {
     });
 
     useEffect(()=>{
-        getSheetData()
-            .then((data)=>{
-                setData(data);
-                setDataLoaded(true);
-            })
-            .catch((error)=>{
-                console.log(error);
-            });
+        if(signinChecked) {
+            getSheetData()
+                .then((data)=>{
+                    setData(data);
+                    setDataLoaded(true);
+                })
+                .catch((error)=>{
+                    console.log(error);
+                });
+        }
     }, [signinChecked])
 
     if(!signinChecked) {

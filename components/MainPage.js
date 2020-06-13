@@ -7,6 +7,7 @@ import { InputAdornment, Box, FormControl, OutlinedInput, Container, Backdrop, T
 import { Route } from 'react-router-dom';
 import About from './About';
 import Person from './Person';
+import Add from './Add';
 
 export default function MainPage(props) {
     const [contentHeight, setContentHeight] = useState(0);
@@ -39,6 +40,9 @@ export default function MainPage(props) {
                 </Route>
                 <Route path="/person">
                     <Person data={props.data}/>
+                </Route>
+                <Route path="/add">
+                    <Add data={props.data}/>
                 </Route>                
                 <Route path="/about">
                     <About />

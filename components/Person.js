@@ -1,21 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, forwardRef } from 'react';
 import {withRouter} from 'react-router-dom';
-import { Typography, Box, Paper, IconButton } from '@material-ui/core';
+import { Typography, Box, Paper, IconButton, Button, Chip } from '@material-ui/core';
 import {getQueryParam, searchPerson} from './data';
 import Skeleton from '@material-ui/lab/Skeleton';
 import appStyles from './styles';
 import {getFullName} from './data';
-import ShareIcon from '@material-ui/icons/Share';
-import {Link} from 'react-router-dom';
-import {getPersonUrl, getPersonKey} from './data';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import FaceIcon from '@material-ui/icons/Face';
+import { Link } from '@material-ui/core';
+import {Link as RouterLink} from 'react-router-dom';
+import {getChildren, getParents} from './data';
+
+function ChipRouterLink(props) {
+    const { to, label } = props;
+  
+    const CustomLink = useMemo(
+      () =>
+          forwardRef((linkProps, ref) => (
+              <RouterLink ref={ref} to={to} {...linkProps} />
+          )),
+      [to],
+    );
+  
+    return (
+        <Chip component={CustomLink} label={label} clickable {...props}/>
+    );
+}
 
 function Profile(props) {
     const classes = appStyles();
     return (
         <>
         <Box className={classes.profileHeader}>
-            Person Info:
-            <IconButton><ShareIcon /></IconButton>
+            <Link href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">
+                <Button className={classes.shareButton} startIcon={<WhatsAppIcon />}>Share on WhatsApp</Button>
+            </Link>
         </Box>
         <Box className={classes.profileBody}>
             <Paper variant="outlined" elevation={0} className={classes.profileCard}>
@@ -34,14 +53,23 @@ function Profile(props) {
             </Paper>
             <Paper variant="outlined" elevation={0} className={classes.profileCard}>
                 <Typography className={classes.profileTextLabel}>Children</Typography>
-                    {props.personData.children.split(",").map((child)=> {
-                        if(props.data[child.trim()]) {
-                            return <Link to={props.data[child.trim()] ? props.data[child.trim()].url: ''}><Typography>{child}</Typography></Link>
-                        } else {
-                            return <Typography>{child}</Typography>
-                        }
-                    })}
-            </Paper>        
+                {getChildren(props.data, props.personData).map((child)=>{
+                    return <ChipRouterLink className={classes.personChip} to={child.url} label={child.name} color="primary" icon={<FaceIcon />} />
+                })}
+            </Paper>
+            <Paper variant="outlined" elevation={0} className={classes.profileCard}>
+                <Typography className={classes.profileTextLabel}>Parents</Typography>
+                {getParents(props.data, props.personData).map((child)=>{
+                    if(typeof(child) == 'string') {
+                        return <Chip className={classes.personChip} icon={<FaceIcon />} label={child} />
+                    }
+                    return <ChipRouterLink className={classes.personChip} to={child.url} label={child.name} color="primary" icon={<FaceIcon />} />
+                })}
+            </Paper>
+            <Paper variant="outlined" elevation={0} className={classes.profileCard}>
+                <Typography className={classes.profileTextLabel}>Other info</Typography>
+                <Typography>{props.personData.other}</Typography>
+            </Paper>            
         </Box>
         </>
     )
