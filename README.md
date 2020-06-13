@@ -1,38 +1,13 @@
-componentDidMount() {
-	const gapiScript = document.createElement('script')
-	gapiScript.src = 'https://apis.google.com/js/api.js?onload=onGapiLoad'
-	window.onGapiLoad = function onGapiLoad() {
-		gapi.load('auth', {'callback': onAuthApiLoad})
-		function onAuthApiLoad() {
-			gapi.auth.init()
-		}
-	}
-	document.body.appendChild(gapiScript)
-}
-
-function start() {
-// 2. Initialize the JavaScript client library.
-gapi.client.init({
-    'apiKey': 'AIzaSyBHLdeH6904EfzVpBM0vg8QqnZ0quH98ds',
-    // Your API key will be automatically added to the Discovery Document URLs.
-    'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-}).then(function() {
-    console.log('success...');
-    return gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '15Wpn0Ng-THDo-B7FJLt0Co9vYGwkMZHE6HgJ0MkJwqo',
-        range: 'A1:A1'
-    }).then((response) => {
-        var result = response.result;
-        var numRows = result.values ? result.values.length : 0;
-        console.log(result.values);
-        console.log(`${numRows} rows retrieved.`);
-    });
-}).then(function(response) {
-    console.log(response.result);
-}, function(reason) {
-    console.log('Error: ' + reason.result.error.message);
-});
-};
-// 1. Load the JavaScript client library.
-console.log('loading...');
-gapi.load('client', start);%                              
+1) Create a gmail account and copy the sample sheet - https://docs.google.com/spreadsheets/d/194zkLOTZ-ULDnekGOPAa5c9A6fs_2Lsfnu1_Ca7bSMU/edit?usp=sharing to your account.
+2) Click on "Share" and 
+2) Go to https://console.developers.google.com/ for the same gmail account.
+3) Click on "select a project" dropdown, and create a new project. Name it - "familytree"
+4) Select "familytree" from "select a project" dropdown and go to dashboard.
+5) Click on "Enable API services", search "sheet". Click on "Google API sheets" and Enable it.
+6) Click on "Credentials" on the left side.
+7) Click on "Configure consent screen", select "Extenal", click "Create".
+8) Application name - "Family Tree", - Authorized domains  - asawafamilytree.github.io, Save.
+9) Click on Credentials on the left side, Click on "Create Credentials -> API key". Copy the key.
+10 Edit the API key from table - select HTTP referrers under - Application restrictions.
+Website restrictions add - website domain. - asawafamilytree.github.io/*
+11 API restrictions - Restrict Key - Check Google Sheets API.
